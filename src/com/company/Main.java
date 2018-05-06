@@ -3,8 +3,8 @@ package com.company;
 public class Main {
 
     public static final int ITERATION_NUMBER = 1000;
-    public static final int WIDTH = 40;
-    public static final int HEIGHT = 30;
+    public static final int WIDTH = 112;
+    public static final int HEIGHT = 40;
     public static final double X_MIN = -2.5;
     public static final double X_MAX = 1;
     public static final double Y_MIN = -1;
@@ -19,17 +19,13 @@ public class Main {
             for (int x = 1; x <= WIDTH; x++) {
                 c.setB(yScale * y + Y_MIN);
                 c.setA(xScale * x + X_MIN);
-                if (testPoint(c, z)) {
-                    System.out.print("#");
-                } else {
-                    System.out.print(".");
-                }
+                printPlane(testPoint(c, z));
             }
             System.out.println();
         }
     }
 
-    public static boolean testPoint(Complex c, Complex z) {
+    public static int testPoint(Complex c, Complex z) {
         double a = 0;
         double b = 0;
         for (int n = 0; n <= ITERATION_NUMBER && a * a + b * b <= 4; n++) {
@@ -37,9 +33,33 @@ public class Main {
             b = z.getB();
             z = c.add(z.square());
             if (a * a + b * b >= 4) {
-                return false;
+                return n;
             }
         }
-        return true;
+        return 0;
+    }
+
+    public static void printPlane(int depth) {
+        if (depth == 0) {
+            System.out.print("@");
+        }
+        if (depth > 7) {
+            System.out.print("*");
+        }
+        if (depth == 7) {
+            System.out.print("o");
+        }
+        if (depth == 6) {
+            System.out.print("c");
+        }
+        if (depth == 5 || depth == 4) {
+            System.out.print(":");
+        }
+        if (depth == 3) {
+            System.out.print(".");
+        }
+        if (depth == 1 || depth == 2) {
+            System.out.print(" ");
+        }
     }
 }
